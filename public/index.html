@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+ <head>
+ <script src="//cdn.jsdelivr.net/p5.js/0.3.8/p5.min.js"></script>
+ <script type="text/javascript" src="//cdn.jsdelivr.net/p5.js/0.3.8/addons/p5.dom.js"></script>
+ <script type="text/javascript">
+var text; // variable for the text div 
+ 
+function setup() {
+	// make a new div 
+  text = createDiv("Sensor reading:");
+  // make a HTTP call to the server for the data:
+  var sensorReading = loadStrings("/data", showData);
+}
+ 
+function showData(result) {
+   // when the server returns, show the result in the div:
+   text.html("Pulse rate reading:" + result);
+   // make another HTTP call:
+   var sensorReading = loadStrings("/data", showData);
+}
+ </script>
+ </head>
+ <body>
+ </body>
+</html>

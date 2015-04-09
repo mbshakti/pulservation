@@ -11,6 +11,7 @@ function setup() {
   text = createDiv("Sensor reading:");
   // make a HTTP call to the server for the data:
   var sensorReading = loadStrings("/data", showData);
+  console.log(data);
 }
  
 function showData(result) {

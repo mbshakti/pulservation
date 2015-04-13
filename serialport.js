@@ -1,16 +1,23 @@
+var io = require('socket.io')(server);
+var express = require('express');
+var colors = require('colors');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var port = 8080;
 var SerialPort = require("serialport").SerialPort
 var serialPort = new SerialPort("/dev/cu.usbmodem1411", {
   baudrate: 57600
 });
-var servi = require('servi');
-var app = new servi(false); // servi instance
-app.port(8080);             // port number to run the server on
 var latestData = 0;
-// configure the server's behavior:
-app.serveFiles("public");     // serve static HTML from public folder
-app.route('/data', sendData); // route requests for /data to sendData()
-// now that everything is configured, start the server:
-app.start();
+var heartRate;
+var message;
+
+app.use('/', express.static(__dirname + '/public'));
+
+server.listen(port, function() {
+    console.log('Server running at port:' + port);
+});
 
 serialPort.on('open', showPortOpen);
 serialPort.on('data', saveLatestData);
@@ -30,24 +37,35 @@ function showError(error) {
 }
 
 function saveLatestData(data) {
-console.log(data.toString())
-     var rawData = data.toString();
-     if(rawData.indexOf("B") == 0){
-//this string starts with B, we got heartrate BPM
-var heartRate = rawData.split("B")[1];
-console.log("got heartRate = "+ heartRate);
-}
-if(rawData.indexOf("Q") == 0){
-//this string starts with Q, we got IBI
-var ibi = rawData.split("Q")[1];
-console.log("got ibi = "+ ibi);
-}   
-   latestData = data;
+
+  var rawData = data.toString();
+  // console.log("rawData: "+rawData);
+  if(rawData.indexOf("B") == 0){
+    var bpm = rawData.split("B")[1];
+    //if bpm index of the escape character is equal -1 then set splitter to 2, else set it to bmp 
+    var splitter = bpm.indexOf("\r") == -1 ? 2 : bpm.indexOf("\r");
+    // console.log("escape index: ".cyan+bpm.indexOf("\r"));
+    heartRate = bpm.substring(0, splitter);
+    message = '';
+    if (heartRate > 100) message = "You are a little excited";
+    if (heartRate < 50)  message = "Breathe a little";
+    latestData = heartRate;
+    var toSend = {
+      "bpm": heartRate,
+      "msg": message
+    }
+    console.log("sending: ".white+ JSON.stringify(toSend,null,'\t'));
+    io.emit('bpm-update', toSend);
+  }
 }
 
+io.on('connection', function(socket){
+  socket.on('bpm-update', function(data){
+  });
+});
+
 function sendData(request) {
-  // print out the fact that a client HTTP request came in to the server:
-  // console.log("Got a client request, sending them the data.");
-  // respond to the client request with the latest serial string:
+
   request.respond(latestData);
+
 }

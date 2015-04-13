@@ -37,5 +37,6 @@ function draw() {
     socket.on('bpm-update', function(toSend){
 
     console.log("is this working?: "+toSend.bpm);
-    $('#text').html("Current heart rate is: " +toSend.bpm);
+    $('#pulse-rate-value').html("Current heart rate is: " +toSend.bpm);
+    $('#pulse-rate-meta-data').html("Meta data: " +toSend.msg);
   });

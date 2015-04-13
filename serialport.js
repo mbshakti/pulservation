@@ -6,7 +6,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var port = 8080;
 var SerialPort = require("serialport").SerialPort
-var serialPort = new SerialPort("/dev/cu.usbmodem1411", {
+var serialPort = new SerialPort("/dev/cu.usbmodem1421", {
   baudrate: 57600
 });
 var latestData = 0;
@@ -47,8 +47,8 @@ function saveLatestData(data) {
     // console.log("escape index: ".cyan+bpm.indexOf("\r"));
     heartRate = bpm.substring(0, splitter);
     message = '';
-    if (heartRate > 100) message = "You are a little excited";
-    if (heartRate < 50)  message = "Breathe a little";
+    if (heartRate > 100) message = "Woah, you are a little excited";
+    if (heartRate < 50)  message = "Your heart rate is super low. Breathe a little.";
     latestData = heartRate;
     var toSend = {
       "bpm": heartRate,
@@ -61,6 +61,9 @@ function saveLatestData(data) {
 
 io.on('connection', function(socket){
   socket.on('bpm-update', function(data){
+  });
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
   });
 });
 

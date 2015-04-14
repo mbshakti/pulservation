@@ -6,12 +6,13 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var port = 8080;
 var SerialPort = require("serialport").SerialPort
-var serialPort = new SerialPort("/dev/cu.usbmodem1421", {
+var serialPort = new SerialPort("/dev/cu.usbmodem1411", {
   baudrate: 57600
 });
 var latestData = 0;
 var heartRate;
 var message;
+var users = [];
 
 app.use('/', express.static(__dirname + '/public'));
 
@@ -55,13 +56,25 @@ function saveLatestData(data) {
       "msg": message
     }
     console.log("sending: ".white+ JSON.stringify(toSend,null,'\t'));
-    io.emit('bpm-update', toSend);
+    // io.emit('bpm-update', toSend);
+      var firstuser = users[0].id; // get id of first user
+      io.to(firstuser).emit('bpm-update', toSend); // emit event only to that user
+    
   }
 }
 
 io.on('connection', function(socket){
+  console.log(socket.id + 'just connected');
+  addUser(socket.id);
+
+  socket.on('disconnect', function() {
+  console.log(socket.id + 'just disconnected');
+  removeUser(socket.id);
+  });
+
   socket.on('bpm-update', function(data){
   });
+
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
   });
@@ -71,4 +84,22 @@ function sendData(request) {
 
   request.respond(latestData);
 
+}
+
+function addUser(user, socket) {
+  if(users.indexOf(user) === -1) {
+    var id = user; //user = socket.id
+    var userObj = {
+      id: id
+    };
+    users.push(userObj);
+    console.log('current users: '+users.length);
+    console.log(users);
+    io.sockets.emit('new user', users);
+  }
+}
+
+function removeUser(user) {
+  users.splice(user, 1);
+  console.log('current users: '+users.length);
 }

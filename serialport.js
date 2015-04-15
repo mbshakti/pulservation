@@ -5,8 +5,9 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var port = 8080;
+var fs = require('fs');
 var SerialPort = require("serialport").SerialPort
-var serialPort = new SerialPort("/dev/cu.usbmodem1411", {
+var serialPort = new SerialPort("/dev/cu.usbmodem1421", {
   baudrate: 57600
 });
 var latestData = 0;
@@ -57,8 +58,8 @@ function saveLatestData(data) {
     }
     console.log("sending: ".white+ JSON.stringify(toSend,null,'\t'));
     // io.emit('bpm-update', toSend);
-      var firstuser = users[0].id; // get id of first user
-      io.to(firstuser).emit('bpm-update', toSend); // emit event only to that user
+    var firstuser = users[0].id; // get id of first user
+    io.to(firstuser).emit('bpm-update', toSend); // emit event only to that user
     
   }
 }
@@ -84,7 +85,19 @@ function sendData(request) {
 
   request.respond(latestData);
 
-}
+};
+
+function askQuestion() {
+  //generate random id from number of items in JSON file
+  var id = Math.floor(Math.random() * 5);
+  console.log("Random id: "+id);
+
+  fs.readFile('questions.json', 'utf8', function(err, res){
+  obj = JSON.parse(res);
+  randomque = obj[id].question;
+  console.log(randomque);
+  });
+};
 
 function addUser(user, socket) {
   if(users.indexOf(user) === -1) {
@@ -103,3 +116,5 @@ function removeUser(user) {
   users.splice(user, 1);
   console.log('current users: '+users.length);
 }
+
+askQuestion();

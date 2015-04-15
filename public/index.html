@@ -5,8 +5,10 @@
    <script src="//cdn.jsdelivr.net/p5.js/0.3.8/p5.min.js"></script>
    <script type="text/javascript" src="//cdn.jsdelivr.net/p5.js/0.3.8/addons/p5.dom.js"></script>
    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+      <script type="text/javascript" src="js/jquery.min.js"></script>
  </head>
  <body>
+  <div id="que-box">Blah</div> <br>
    <div id="pulse-rate-value"></div> <br>
    <div id="pulse-rate-meta-data"></div>
    <div id="box">
@@ -16,7 +18,6 @@
     </form>
 	</div>
    <script src="main.js"></script>
-   <script type="text/javascript" src="js/jquery.min.js"></script>
    <script>
    var socket = io();
   $('form').submit(function(){

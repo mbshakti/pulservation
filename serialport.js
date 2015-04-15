@@ -10,10 +10,11 @@ var SerialPort = require("serialport").SerialPort
 var serialPort = new SerialPort("/dev/cu.usbmodem1421", {
   baudrate: 57600
 });
+var users = [];
 var latestData = 0;
 var heartRate;
 var message;
-var users = [];
+
 
 app.use('/', express.static(__dirname + '/public'));
 
@@ -67,6 +68,7 @@ function saveLatestData(data) {
 io.on('connection', function(socket){
   console.log(socket.id + 'just connected');
   addUser(socket.id);
+  askQuestion();
 
   socket.on('disconnect', function() {
   console.log(socket.id + 'just disconnected');
@@ -94,8 +96,12 @@ function askQuestion() {
 
   fs.readFile('questions.json', 'utf8', function(err, res){
   obj = JSON.parse(res);
-  randomque = obj[id].question;
-  console.log(randomque);
+  randomQue = obj[id].question;
+  console.log(randomQue);
+  var queCrit = {
+    "question": randomQue
+  }
+  io.emit('why', queCrit);
   });
 };
 
@@ -116,5 +122,3 @@ function removeUser(user) {
   users.splice(user, 1);
   console.log('current users: '+users.length);
 }
-
-askQuestion();

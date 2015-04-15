@@ -1,10 +1,10 @@
-var socket = io.connect();
 var text; // variable for the text div 
 var latestdata;
 var toSend;
 var heartRate;
 var message;
 var audio = new Audio('../audio/heartbeat.mp3');
+var question;
  
 //p5 stuff
 function setup() {
@@ -15,7 +15,7 @@ function draw() {
 
 }
 
-
+var socket = io.connect();
 socket.on('bpm-update', function(data){
 
   console.log("received bpm-update: "+JSON.stringify(data));
@@ -35,4 +35,9 @@ socket.on('bpm-update', function(data){
     audio.pause();
     console.log("dont think this works");
   }
+});
+
+socket.on('why', function(queCrit){
+  console.log("CHECK IT"+queCrit.question);
+  $('#que-box').html(queCrit.question);
 });

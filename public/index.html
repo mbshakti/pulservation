@@ -5,14 +5,17 @@
    <script src="//cdn.jsdelivr.net/p5.js/0.3.8/p5.min.js"></script>
    <script type="text/javascript" src="//cdn.jsdelivr.net/p5.js/0.3.8/addons/p5.dom.js"></script>
    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-      <script type="text/javascript" src="js/jquery.min.js"></script>
+   <script type="text/javascript" src="js/jquery.min.js"></script>
  </head>
  <body>
-  <div id="que-box">Blah</div> <br>
+
+  <button name="button" id="newQue">Generate question</button>
+  <div id="que-box"></div> <br>
    <div id="pulse-rate-value"></div> <br>
    <div id="pulse-rate-meta-data"></div>
    <div id="box">
    <ul id="messages"></ul>
+    <div id="chicken"></div>
     <form action="">
     <input id="m" autocomplete="off" /><button>Send</button>
     </form>
@@ -20,14 +23,54 @@
    <script src="main.js"></script>
    <script>
    var socket = io();
+   var name = [];
+   var timeOut;
+
+  var name = prompt('what is your name?');
+  console.log(name);
+
   $('form').submit(function(){
-    socket.emit('chat message', $('#m').val());
+    var inputValue = $('#m').val();
+    console.log(inputValue);
+    var wholeMessage = {
+      username: name,
+      message: inputValue
+    }
+    socket.emit('chat message', wholeMessage);
     $('#m').val('');
     return false;
   });
-  socket.on('chat message', function(msg){
-    $('#messages').append($('<li>').text(msg));
+
+  socket.on('chat message', function(wholeMessage){
+    $('#messages').append($('<p>').text(wholeMessage.username+ ': '+wholeMessage.message));
+    console.log(JSON.stringify(wholeMessage));
+    console.log(wholeMessage);
   });
+
+  $('#newQue').click(function(){
+    console.log('Generate a question!');
+    socket.emit('click new');
+  });
+
+  socket.emit('chat username', name);
+
+  socket.on('chat username', function(name){
+    $('<p>').append($('<p>').text(name));
+  });
+
+  $('#m').keyup(function(){
+    console.log('user is typing');
+    socket.emit('user typing');
+  });
+
+  socket.on('user typing', function whenTyping(){
+    $('#chicken').html('typing...');
+    timeOut = setTimeout(function() {
+      $('#chicken').html('');
+    }, 2000);
+  });
+
+
    </script>
  </body>
 </html>

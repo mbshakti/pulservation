@@ -14,6 +14,7 @@ var users = [];
 var latestData = 0;
 var heartRate;
 var message;
+var name =[];
 
 
 app.use('/', express.static(__dirname + '/public'));
@@ -50,17 +51,17 @@ function saveLatestData(data) {
     // console.log("escape index: ".cyan+bpm.indexOf("\r"));
     heartRate = bpm.substring(0, splitter);
     message = '';
-    if (heartRate > 100) message = "Woah, you are a little excited";
-    if (heartRate < 50)  message = "Your heart rate is super low. Breathe a little.";
+    if (heartRate > 100) message = "Woah, a little excited";
+    if (heartRate < 50)  message = "Heart rate is super low";
     latestData = heartRate;
     var toSend = {
       "bpm": heartRate,
       "msg": message
     }
     console.log("sending: ".white+ JSON.stringify(toSend,null,'\t'));
-    // io.emit('bpm-update', toSend);
-    var firstuser = users[0].id; // get id of first user
-    io.to(firstuser).emit('bpm-update', toSend); // emit event only to that user
+    io.emit('bpm-update', toSend);
+    // var firstuser = users[0].id; // get id of first user
+    // io.to(firstuser).emit('bpm-update', toSend); // emit event only to that user
     
   }
 }
@@ -68,7 +69,6 @@ function saveLatestData(data) {
 io.on('connection', function(socket){
   console.log(socket.id + 'just connected');
   addUser(socket.id);
-  askQuestion();
 
   socket.on('disconnect', function() {
   console.log(socket.id + 'just disconnected');
@@ -78,9 +78,19 @@ io.on('connection', function(socket){
   socket.on('bpm-update', function(data){
   });
 
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+  socket.on('chat message', function(wholeMessage){
+    io.emit('chat message', wholeMessage);
   });
+
+  socket.on('click new', function() {
+    askQuestion();
+  });
+
+  socket.on('user typing', function(){
+    console.log(socket.id+'is typing');
+    socket.broadcast.emit('user typing');
+  });
+
 });
 
 function sendData(request) {
@@ -91,7 +101,7 @@ function sendData(request) {
 
 function askQuestion() {
   //generate random id from number of items in JSON file
-  var id = Math.floor(Math.random() * 5);
+  var id = Math.floor(Math.random() * 7);
   console.log("Random id: "+id);
 
   fs.readFile('questions.json', 'utf8', function(err, res){
@@ -105,7 +115,7 @@ function askQuestion() {
   });
 };
 
-function addUser(user, socket) {
+function addUser(user, socket, name) {
   if(users.indexOf(user) === -1) {
     var id = user; //user = socket.id
     var userObj = {
@@ -118,7 +128,15 @@ function addUser(user, socket) {
   }
 }
 
+
 function removeUser(user) {
   users.splice(user, 1);
   console.log('current users: '+users.length);
 }
+
+// function addNames(user) {
+//   users.push("stranger");
+//   users.push("you");
+//   console.log('jeeeeeezuz' +users);
+// }
+

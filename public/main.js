@@ -6,14 +6,6 @@ var message;
 var audio = new Audio('../audio/heartbeat.mp3');
 var question;
  
-//p5 stuff
-function setup() {
-
-}
- 
-function draw() {
-
-}
 
 var socket = io.connect();
 socket.on('bpm-update', function(data){
@@ -23,7 +15,7 @@ socket.on('bpm-update', function(data){
 
   socket.on('bpm-update', function(toSend){
 
-  $('#pulse-rate-value').html("Current heart rate is: " +toSend.bpm);
+  $('#pulse-rate-value').html("Chat partner BPM: " +toSend.bpm);
   $('#pulse-rate-meta-data').html("Meta data: " +toSend.msg);
   //play audio when heartRate is higher than 100
   if (toSend.bpm > 100) {

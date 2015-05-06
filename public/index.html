@@ -6,13 +6,15 @@
    <script type="text/javascript" src="//cdn.jsdelivr.net/p5.js/0.3.8/addons/p5.dom.js"></script>
    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
    <script type="text/javascript" src="js/jquery.min.js"></script>
+   <link href='http://fonts.googleapis.com/css?family=Dosis|Jura' rel='stylesheet' type='text/css'>
  </head>
  <body>
-
   <button name="button" id="newQue">Generate question</button>
-  <div id="que-box"></div> <br>
+  <div id="site-name">PULSERVATION v0.1</div>
+  <div id="hello"></div>
    <div id="pulse-rate-value"></div> <br>
    <div id="pulse-rate-meta-data"></div>
+  <div id="que-box"></div> <br>
    <div id="box">
    <ul id="messages"></ul>
     <div id="chicken"></div>
@@ -28,6 +30,8 @@
 
   var name = prompt('what is your name?');
   console.log(name);
+  $('#hello').html('SESSION USER: '+name);
+  socket.emit('user name', name);
 
   $('form').submit(function(){
     var inputValue = $('#m').val();
@@ -52,6 +56,10 @@
     socket.emit('click new');
   });
 
+  socket.on('bpm-update', function(toSend){
+    console.log(toSend);
+  });
+
   socket.emit('chat username', name);
 
   socket.on('chat username', function(name){
@@ -68,6 +76,20 @@
     timeOut = setTimeout(function() {
       $('#chicken').html('');
     }, 2000);
+  });
+
+  socket.on('other client', function(data){
+    console.log(data);
+    $('#pulse-rate-value').html('BPM: '+data);
+      if (data > 100) {
+      audio.play();
+      console.log("dont think this works");
+    }
+    //pause audio when heartRate is lower than 100
+    if (data < 100) {
+      audio.pause();
+      console.log("dont think this works");
+    }
   });
 
 

@@ -1,28 +1,100 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-#box {
-  margin-top: 100px;
-  margin-left: 0px;
-/*  border: 1px solid gray;*/
-  width: 50%;
-  height: 300px;
+* {
+    font-family: 'Jura', sans-serif;
+    font-size: 15px;
+    color: white;
+    margin: 0;
+    padding: 0px;
+    box-sizing: border-box;
+/*    -webkit-font-smoothing: antialiased;*/
+    background-color: black;
 }
-
+#pulse-rate-value {
+    margin: 0px 0px -9px 21px;
+}
+#pulse-rate-meta-data {
+    margin: 0px 0px 0px 21px;
+}
+#site-name {
+    padding: 0;
+    margin: 20px 7px 7px 20px;
+/*    background-color: #CC3232;*/
+    color: #CC3232;
+    height: 32px;
+    width: 215px;
+    font-size: 25px;
+    border-radius: 5px;
+/*    text-align: center;*/
+}
+#box {
+    margin-left: 0px;
+    width: 98%;
+    height: 460px;
+    overflow: scroll;
+/*    border: 1px solid #d3d3d3;*/
+}
 /*#message {
   margin: 10px;
   padding: 10px;
 
 }
+
 */
-#que-box {
-  font-size: 25px;
-  text-align: center;
-  margin: 30px;
+
+#hello {
+    text-transform: uppercase;
+    padding: 2;
+    margin: 12px 10px 5px 20px;
 }
 
-#messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
+#chat-partner {
+    text-transform: uppercase;
+    padding: 2;
+    margin: 20px 7px 7px 22px;
+}
 
+p {
+    padding: 10px;
+}
+
+#chicken {
+    padding: 10px;
+}
+
+#newQue {
+    text-transform: uppercase;
+    padding: 20px;
+    margin: 0px 19px 7px 20px;
+    background-color: black;
+    color: #CC3232;
+    border: 1px solid #CC3232;
+    float: right;
+}
+
+#newQue:hover {
+    background-color: #CC3232;
+    color: black;
+}
+
+#newQue:focus {
+  outline: none;
+}
+
+#que-box {
+    font-size: 18px;
+    text-align: center;
+    margin: 10px;
+    text-transform: uppercase;
+    padding: 10px;
+}
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 10px;
+}
+#messages li {
+    padding: 5px 10px;
+}
 /*form {
   position: absolute;
   width: 700px;
@@ -30,11 +102,20 @@
 }*/
 
 form button {
-  width: 9%;
-  background: pink;
-  border: none;
-  padding: 10px;
-  border: 1px solid pink;
+    width: 9.7%;
+    background-color: black;
+    border: 1px solid #CC3232;
+    padding: 20px;
+    color: #CC3232;
+}
+
+form button:hover {
+  background: #CC3232;
+  color: black;
+}
+
+form button:focus {
+  outline: none;
 }
 
 /*form input {
@@ -44,6 +125,24 @@ form button {
   margin-bottom: 500px;
 /*  margin-right: .5%;*/
 
-form input { border: 1px solid black; padding: 10px; width: 90%; margin-right: .5%; }
+form input {
+    border: 1px solid #CC3232;
+    padding: 20px;
+    width: 90%;
+    margin-right: .25%;
+    -webkit-appearance: none; 
+}
 
-form { background: #fff; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+form input:focus {
+    outline: none;
+}
+
+
+form {
+    background: black;
+/*    border: 1px solid #d3d3d3;*/
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

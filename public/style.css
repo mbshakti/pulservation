@@ -1,13 +1,71 @@
 * {
-    font-family: 'Jura', sans-serif;
+    font-family: 'Jura', serif;
+    font-weight: 600;
     font-size: 15px;
-    color: white;
+    color: black;
     margin: 0;
     padding: 0px;
     box-sizing: border-box;
-/*    -webkit-font-smoothing: antialiased;*/
-    background-color: black;
+    background-color: white;
 }
+
+#name {
+  color: pink;
+}
+
+hr {
+  margin: -10px;
+  border-top: #B2B2B2;
+}
+
+
+#header-line {
+  height: 5px;
+  width: 100%;
+}
+
+#blue {
+  background: #8B2323;
+  width: 25%;
+  height: 5px;
+  float: left;
+  overflow: hidden;
+}
+
+#yellow {
+  background: #CD3333;
+  width: 25%;
+  height: 5px;
+  float: left;
+  overflow: hidden;
+}
+
+#green {
+  background: #F08080;
+  width: 25%;
+  height: 5px;
+  float: left;
+  overflow: hidden;
+}
+
+#red {
+  background: #FFCCCC;
+  width: 25%;
+  height: 5px;
+  float: left;
+  overflow: hidden;
+}
+
+#dot {
+  background-color: red;
+  border-radius: 10px;
+  height: 10px;
+  width: 10px;
+  float: left;
+  margin-top: 28px;
+  margin-left: 17px;
+}
+
 #pulse-rate-value {
     margin: 0px 0px -9px 21px;
 }
@@ -16,34 +74,29 @@
 }
 #site-name {
     padding: 0;
-    margin: 20px 7px 7px 20px;
+    margin: 20px 20px 20px 34px;
 /*    background-color: #CC3232;*/
     color: #CC3232;
     height: 32px;
-    width: 215px;
+    width: 225px;
     font-size: 25px;
+    font-weight: 600;
     border-radius: 5px;
+    font-family: 'Jura', serif;
 /*    text-align: center;*/
 }
 #box {
     margin-left: 0px;
     width: 98%;
-    height: 460px;
+    height: 420px;
     overflow: scroll;
-/*    border: 1px solid #d3d3d3;*/
 }
-/*#message {
-  margin: 10px;
-  padding: 10px;
-
-}
-
-*/
 
 #hello {
     text-transform: uppercase;
     padding: 2;
-    margin: 12px 10px 5px 20px;
+    margin: 25px 10px 5px 20px;
+    font-family: 'Jura', sans-serif;
 }
 
 #chat-partner {
@@ -56,23 +109,30 @@ p {
     padding: 10px;
 }
 
+p:nth-child(odd) {
+  background-color: #F8F8F8;
+}
+
 #chicken {
     padding: 10px;
+    margin-left: 10px;
 }
 
 #newQue {
     text-transform: uppercase;
     padding: 20px;
-    margin: 0px 19px 7px 20px;
-    background-color: black;
+    margin: 25px 11px 16px 19px;
+    background-color: white;
     color: #CC3232;
-    border: 1px solid #CC3232;
+    border: 1px solid #B2B2B2;
     float: right;
+    font-family: 'Jura', serif;
+    font-weight: 600;
 }
 
 #newQue:hover {
     background-color: #CC3232;
-    color: black;
+    color: white;
 }
 
 #newQue:focus {
@@ -80,11 +140,12 @@ p {
 }
 
 #que-box {
-    font-size: 18px;
+    font-size: 23px;
     text-align: center;
     margin: 10px;
     text-transform: uppercase;
     padding: 10px;
+    text-transform:  
 }
 
 #messages {
@@ -92,41 +153,44 @@ p {
     margin: 0;
     padding-left: 10px;
 }
+
 #messages li {
-    padding: 5px 10px;
+    padding: 5px 10px 5px 5px;
+    color: pink; 
 }
-/*form {
-  position: absolute;
-  width: 700px;
-  height: 500px;
-}*/
+
+#messages li:nth-child(odd) { 
+
+  background: pink; 
+
+}
+
+
+form {
+    position: fixed; 
+    bottom: 0; 
+}
 
 form button {
     width: 9.7%;
-    background-color: black;
-    border: 1px solid #CC3232;
+    background-color: white;
+    border: 1px solid #B2B2B2;
     padding: 20px;
     color: #CC3232;
 }
 
 form button:hover {
   background: #CC3232;
-  color: black;
+  color: white;
 }
 
 form button:focus {
   outline: none;
 }
 
-/*form input {
-  border: 1px solid black;
-  padding: 10px;
-  width: 50%;
-  margin-bottom: 500px;
-/*  margin-right: .5%;*/
 
 form input {
-    border: 1px solid #CC3232;
+    border: 1px solid #B2B2B2;
     padding: 20px;
     width: 90%;
     margin-right: .25%;
@@ -139,8 +203,7 @@ form input:focus {
 
 
 form {
-    background: black;
-/*    border: 1px solid #d3d3d3;*/
+    background: white;
     padding: 3px;
     position: fixed;
     bottom: 0;

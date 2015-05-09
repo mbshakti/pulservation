@@ -6,21 +6,28 @@
    <script type="text/javascript" src="//cdn.jsdelivr.net/p5.js/0.3.8/addons/p5.dom.js"></script>
    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
    <script type="text/javascript" src="js/jquery.min.js"></script>
-   <link href='http://fonts.googleapis.com/css?family=Dosis|Jura' rel='stylesheet' type='text/css'>
+   <link href='http://fonts.googleapis.com/css?family=Arimo|Jura:400,600' rel='stylesheet' type='text/css'>
  </head>
  <body>
+  <div id = "header-line"> 
+            <div id = "blue">  </div>
+            <div id = "yellow">  </div>
+            <div id = "green">  </div>
+            <div id = "red">  </div>
+  </div>
+  <div id="dot"></div><div id="site-name"> PULSERVATION v0.1</div>
+  <hr>
   <button name="button" id="newQue">Generate question</button>
-  <div id="site-name">PULSERVATION v0.1</div>
-  <div id="hello"></div>
+   <div id="hello"></div>
    <div id="pulse-rate-value"></div> <br>
    <div id="pulse-rate-meta-data"></div>
-  <div id="que-box"></div> <br>
-   <div id="box">
-   <ul id="messages"></ul>
-    <div id="chicken"></div>
-    <form action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+  <center><div id="que-box"></div> </center> <br>
+  <div id="box">
+      <ul id="messages"></ul>
+      <div id="chicken"></div>
+      <form action="">
+      <input id="m" autocomplete="off" /><button>SEND</button>
+      </form>
 	</div>
    <script src="main.js"></script>
    <script>
@@ -76,20 +83,6 @@
     timeOut = setTimeout(function() {
       $('#chicken').html('');
     }, 2000);
-  });
-
-  socket.on('other client', function(data){
-    console.log(data);
-    $('#pulse-rate-value').html('BPM: '+data);
-      if (data > 100) {
-      audio.play();
-      console.log("dont think this works");
-    }
-    //pause audio when heartRate is lower than 100
-    if (data < 100) {
-      audio.pause();
-      console.log("dont think this works");
-    }
   });
 
 

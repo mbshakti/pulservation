@@ -44,11 +44,9 @@ function saveLatestData(data) {
 
   var rawData = data.toString();
   // console.log("rawData: "+rawData);
-  if(rawData.indexOf("B") == 0){
+  if(rawData.indexOf("B") >= 0){
     var bpm = rawData.split("B")[1];
-    //if bpm index of the escape character is equal -1 then set splitter to 2, else set it to bmp 
     var splitter = bpm.indexOf("\r") == -1 ? 2 : bpm.indexOf("\r");
-    // console.log("escape index: ".cyan+bpm.indexOf("\r"));
     heartRate = bpm.substring(0, splitter);
     message = '';
     if (heartRate > 100) message = "Woah, a little excited";
@@ -59,10 +57,8 @@ function saveLatestData(data) {
       "msg": message
     }
     console.log("sending: ".white+ JSON.stringify(toSend,null,'\t'));
-    // io.emit('bpm-update', toSend);
-
-    for (var i = users.length - 1; i >= 0; i--) {
-    var firstuser = users[0].id; // get id of first user
+    for (var i = users.length - 1; i >= 1; i--) {
+    var firstuser = users[1].id; // get id of first user
     io.to(firstuser).emit('bpm-update', toSend); //getting data from the other dude
     }    
   }
@@ -112,7 +108,7 @@ function sendData(request) {
 
 function askQuestion() {
   //generate random id from number of items in JSON file
-  var id = Math.floor(Math.random() * 7);
+  var id = Math.floor(Math.random() * 8);
   console.log("Random id: "+id);
 
   fs.readFile('questions.json', 'utf8', function(err, res){
@@ -145,12 +141,6 @@ function removeUser(user) {
   console.log('current users: '+users.length);
 }
 
-// function addNames(user) {
-//   users.push("stranger");
-//   users.push("you");
-//   console.log('jeeeeeezuz' +users);
-// }
-
 
 var client = net.connect({port: 18000, host:'localhost'}, function(){
   console.log('connected to server');
@@ -163,8 +153,8 @@ var client = net.connect({port: 18000, host:'localhost'}, function(){
 
 client.on('data', function(data, socket){
     console.log(data);
-    for (var i = users.length - 1; i >= 0; i--) {
-    var seconduser = users[1].id; // get id of first user
+    for (var i = users.length - 1; i >= 1; i--) {
+    var seconduser = users[0].id; // get id of first user
     io.to(seconduser).emit('other client', data); //getting data from the other dude
     }
 });

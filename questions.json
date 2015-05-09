@@ -16,7 +16,7 @@
 	},
 {
 	"question": "So, how's your relationship with God?",
-	"genre": "funny"
+	"genre": "profound"
 	},
 {
 	"question": "What was the last lie you told?",
@@ -25,5 +25,9 @@
 {
 	"question": "Have you ever had an STD?",
 	"genre": "funny"
+	},
+{
+	"question": "When was the last time you drank yourself to sleep?",
+	"genre": "depressing"
 	}
 ]
